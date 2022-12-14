@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+import React from 'react';
+import { connect } from 'react-redux';
+import { useState} from 'react';
+
+import Nationalize from './components/Nationalize';
+import { getNationalize } from './actions';
 import './App.css';
 
-function App() {
+
+
+function App(props) {
+
+  const [nameInput, setNameInput] = useState('')
+  
+
+  const handleChange = (e) => {
+    setNameInput(e.target.value)
+  }
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.getNationalize(nameInput)
+    setNameInput('')
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Find Nationality</h1>
+
+      <form>
+        <input onChange={handleChange} value={nameInput} />
+        <button onClick={handleSubmit}>Search</button>
+      </form>
+
+      <Nationalize />
+      
     </div>
   );
 }
 
-export default App;
+export default connect(null, { getNationalize })(App);
